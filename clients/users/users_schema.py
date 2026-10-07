@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, Field, ConfigDict
+from pydantic import BaseModel, Field, ConfigDict, EmailStr
 
 class UserSchema(BaseModel):
     """
@@ -27,5 +27,28 @@ class CreateUserRequestSchema(BaseModel):
 class CreateUserResponseSchema(BaseModel):
     """
     Описание структуры ответа создания пользователя.
+    """
+    user: UserSchema
+
+class UpdateUserRequestSchema(BaseModel):
+    """
+    Описание структуры запроса на обновление пользователя.
+    """
+    model_config = ConfigDict(populate_by_name=True)
+
+    email: EmailStr | None
+    last_name: str | None = Field(alias="lastName")
+    first_name: str | None = Field(alias="firstName")
+    middle_name: str | None = Field(alias="middleName")
+
+class UpdateUserResponseSchema(BaseModel):
+    """
+    Описание структуры ответа обновления пользователя.
+    """
+    user: UserSchema
+
+class GetUserResponseSchema(BaseModel):
+    """
+    Описание структуры ответа получения пользователя.
     """
     user: UserSchema
